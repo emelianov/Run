@@ -6,13 +6,10 @@
 
 #pragma once
 
-#include <inttypes.h>
-#include "Arduino.h"
-
 #ifndef MAX_TASKS
  #define MAX_TASKS      16
 #endif
-//#define TASKEXEC for(uint8_t i = 0; i < taskCount; i++) {if (millis() - taskTasks[i].lastRun > taskTasks[i].delay) {taskTasks[i].lastRun = millis(); taskTasks[i].delay = taskTasks[i].thread();if (taskTasks[i].delay == 0) if (taskDel(i)) break;}}
+//Legacy define
 #define TASKEXEC taskExec();
 
 typedef uint32_t (*task)();
@@ -32,32 +29,30 @@ int16_t taskAddWithDelay(task thread, uint32_t delay) {
    taskTasks[taskCount].delay = delay;
    taskCount++;
    return taskCount - 1;
- } else {
-   return -1;
  }
+ return -1;
 }
 
 int16_t taskAdd(task thread) {
  return taskAddWithDelay(thread, 1);
 }
 
-bool taskDel(byte id) {
+bool taskDel(uint8_t id) {
  if (id < taskCount) {
   memcpy(&taskTasks[id], &taskTasks[id + 1], (taskCount - id - 1) * sizeof(taskThread));
   taskCount--;
   return true;
- } else {
-  return false;
  }
+ return false;
 }
 
 bool taskDel(task thread) {
   for (uint8_t i = 0; i < taskCount; i++) {
     if (taskTasks[i].thread = thread) {
-      taskDel(i);
-      break;
+      return taskDel(i);
     }
   }
+  return false;
 }
 
 void taskExec() {

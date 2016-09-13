@@ -5,8 +5,9 @@ Arduino simple cooperative multitask library
 *&copy;2016, Alexander Emelianov (a.m.emelainov@gmail.com)*
 
 ###1. Usage
-
 ```c
+#define MAX_TASKS 8
+#include <Run.h>
 uint32_t taskToRun() {
   //DO SOMETHING
  return delayToNextRun_OR_0_ToRemoveTask
@@ -20,6 +21,9 @@ void loop() {
 ```
 
 ###2. Reference
+`#define MAX_TASKS 16`
+
+Maximum count of tasks to schedulle.
 
 `typedef uint32_t (*task)()`
 
@@ -62,7 +66,6 @@ Returns false if task not found.
 Execute all tasks assigned to schedule. Shiuld be run in loop.
 
 ###3. Changes history
-
 * 2016.1.2
 
  * Add check to not exceed MAX_TASKS on addin task.
