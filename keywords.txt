@@ -1,0 +1,22 @@
+#######################################
+# Syntax Coloring Map For Run
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+taskAddWithDelay		KEYWORD2
+taskAdd				KEYWORD2
+taskDel				KEYWORD2
+taskExec			KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
+MAX_TASKS			LITERAL1
