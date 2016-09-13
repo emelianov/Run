@@ -2,7 +2,7 @@
 
 Arduino simple cooperative multitask library
 
-*&copy;2016, Alexander Emelianov (a.m.emelainov@gmail.com)*
+*&copy;2016, Alexander Emelianov (a.m.emelianov@gmail.com)*
 
 ###1. Usage
 ```c

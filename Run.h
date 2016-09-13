@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////////
 // Run 2016.1.2
 // Arduino simple cooperative multitask library
-// (c)2016, Alexander Emelianov (a.m.emelainov@gmail.com)
+// (c)2016, Alexander Emelianov (a.m.emelianov@gmail.com)
 //
 
 #pragma once
