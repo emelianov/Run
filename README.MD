@@ -6,29 +6,18 @@ Arduino simple cooperative multitask library
 
 #1. Usage
 
---- Code ---
-
+```c
 uint32_t taskToRun() {
-
   //DO SOMETHING
-
  return delayToNextRun_OR_0_ToRemoveTask
-
 }
-
 void setup() {
-
   addTask(taskToRun);
-
 }
-
 void loop() {
-
   TASKEXEC //Macro to run tasks
-
 }
-
---- Code ---
+```
 
 #2. Reference
 
