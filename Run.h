@@ -48,7 +48,7 @@ bool taskDel(uint8_t id) {
 
 bool taskDel(task thread) {
   for (uint8_t i = 0; i < taskCount; i++) {
-    if (taskTasks[i].thread = thread) {
+    if (taskTasks[i].thread == thread) {
       return taskDel(i);
     }
   }
