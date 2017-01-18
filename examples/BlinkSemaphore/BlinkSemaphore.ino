@@ -21,10 +21,10 @@ bool initialized = false;
 
 //LED 1 blinking task
 uint32_t led1Blink() {
- if (digitalRead(LED1_GPIO) == HIGH) {
-   digitalWrite(LED1_GPIO, LOW);
+ if (digitalRead(LED1_PIN) == HIGH) {
+   digitalWrite(LED1_PIN, LOW);
  } else {
-   digitalWrite(LED1_GPIO, HIGH);
+   digitalWrite(LED1_PIN, HIGH);
  }
 // Return time to next run of current task (mSec)
  return LED1_ON_OFF;
@@ -32,17 +32,17 @@ uint32_t led1Blink() {
 
 // LED 2 turn ON task
 uint32_t led2On() {
- digitalWrite(LED2_GPIO, LOW);
+ digitalWrite(LED2_PIN, LOW);
 // Add task to LED 2 off in LED2_ON mSec
- taskAdd(ledOff, LED2_ON);
+ taskAddWithDelay(led2Off, LED2_ON);
 // Return RUN_DELETE caused task to be removed from sheduller queue
  return RUN_DELETE;
 }
 
 // LED 2 turn OFF task
 uint32_t led2Off() {
- digitalWrite(LED2_GPIO, HIGH);
- taskAdd(ledOff, LED2_OFF);
+ digitalWrite(LED2_PIN, HIGH);
+ taskAddWithDelay(led2On, LED2_OFF);
  return RUN_DELETE;
 }
 
@@ -58,11 +58,11 @@ uint32_t ledInit() {
 
 void setup() {
 // Add task that will wait until semaphore become true
-  addTaskWithSemaphore(led1Blink, initialized);
+  taskAddWithSemaphore(led1Blink, &initialized);
 // Add task that will wait until semaphore become true
-  addTaskWithSemaphore(led2On, initialized);
+  taskAddWithSemaphore(led2On, &initialized);
 // Perform initialization as task
-  addTask(ledInit);
+  taskAdd(ledInit);
 }
 
 void loop() {
