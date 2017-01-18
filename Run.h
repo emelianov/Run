@@ -1,17 +1,16 @@
 /////////////////////////////////////////////////////////
-// Run 2016.2
+// Run 2017.1
 // Arduino simple cooperative multitask library
 // (c)2017, Alexander Emelianov (a.m.emelianov@gmail.com)
 //
 
 #pragma once
 
+#define RUN_DELETE 0
 #define RUN_NEVER 0xFFFFFFFF
-#ifndef MAX_TASKS
- #define MAX_TASKS      16
+#ifndef RUN_TASKS
+ #define RUN_TASKS      16
 #endif
-//Legacy define
-#define TASKEXEC taskExec();
 
 typedef uint32_t (*task)();
 struct taskThread {
@@ -22,14 +21,14 @@ struct taskThread {
 };
 
 uint8_t taskCount = 0;
-taskThread taskTasks[MAX_TASKS];
+taskThread taskTasks[RUN_TASKS];
 
 int16_t taskAddWithDelay(task thread, uint32_t delay, bool *signal = NULL) {
- if (taskCount < MAX_TASKS) {
-   taskTasks[taskCount].thread    = thread;
+ if (taskCount < RUN_TASKS) {
+   taskTasks[taskCount].thread   = thread;
    taskTasks[taskCount].lastRun  = millis();
-   taskTasks[taskCount].delay = delay;
-   taskTasks[taskCount].signal = signal;
+   taskTasks[taskCount].delay    = delay;
+   taskTasks[taskCount].signal   = signal;
    taskCount++;
    return taskCount - 1;
  }
@@ -44,10 +43,9 @@ int16_t taskAdd(task thread) {
  return taskAddWithDelay(thread, 1);
 }
 
-bool taskDel(uint8_t id) {
+bool taskDel(uint8_t i) {
  if (id < taskCount) {
-  memcpy(&taskTasks[id], &taskTasks[id + 1], (taskCount - id - 1) * sizeof(taskThread));
-  taskCount--;
+  taskTasks[i].delay = RUN_DELETE;
   return true;
  }
  return false;
@@ -56,26 +54,37 @@ bool taskDel(uint8_t id) {
 bool taskDel(task thread) {
   for (uint8_t i = 0; i < taskCount; i++) {
     if (taskTasks[i].thread == thread) {
-      return taskDel(i);
+      taskTasks[i].delay = RUN_DELETE;
+      return true;
     }
   }
   return false;
 }
 
 void taskExec() {
-  for(uint8_t i = 0; i < taskCount; i++) {
-    if (millis() - taskTasks[i].lastRun > taskTasks[i].delay || \
-    	(taskTasks[i].signal != NULL && *taskTasks[i].signal)) {
-      taskTasks[i].lastRun = millis();
-      taskTasks[i].delay = taskTasks[i].thread();
-      if (taskTasks[i].delay == 0) {
-        if (taskDel(i)) {
-          i--;
+  uint8_t i, j;
+  for(i = 0; i < taskCount; i++) {
+    if (taskTasks[i].delay != 0) {
+      if (taskTasks[i].signal != NULL && *taskTasks[i].signal) {
+        for (j = i + 1; j < taskCount; j++) {
+          if (taskTasks[j].signal == taskTasks[i].signal) {
+            taskTasks[i].lastRun = millis();
+            taskTasks[i].delay = taskTasks[i].thread();
+          }
         }
+        *taskTasks[i].signal = false;
       }
-      if (taskTasks[i].signal != NULL) {
-      	*taskTasks[i].signal = false;
+      if (millis() - taskTasks[i].lastRun > taskTasks[i].delay) {
+        taskTasks[i].lastRun = millis();
+        taskTasks[i].delay = taskTasks[i].thread();
       }
     }
+  }
+  for(i = 0; i < taskCount; i++) {
+   if (taskTasks[i].delay == RUN_DELETE) { 
+     memcpy(&taskTasks[i], &taskTasks[i + 1], (taskCount - i - 1) * sizeof(taskThread));
+     taskCount--;
+     i--; 
+   }
   }
 }

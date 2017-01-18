@@ -1,15 +1,15 @@
-#Run 2016.2
+#Run 2017.1
 
 Arduino simple cooperative multitask library
 
-*&copy;2016, Alexander Emelianov (a.m.emelianov@gmail.com)*
+*&copy;2017, Alexander Emelianov (a.m.emelianov@gmail.com)*
 
 ###1. Usage
 
 Simple task:
 
 ```c
-#define MAX_TASKS 8
+#define RUN_TASKS 8
 #include <Run.h>
 uint32_t taskToRun() {
   //DO SOMETHING
@@ -28,7 +28,7 @@ void loop() {
 Semaphore task:
 
 ```c
-#define MAX_TASKS 8
+#define RUN_TASKS 8
 #include <Run.h>
 bool semaphore = false;
 uint32_t taskToWait() {
@@ -44,7 +44,7 @@ void loop() {
 ```
 
 ###2. Reference
-`#define MAX_TASKS 16`
+`#define RUN_TASKS 16`
 
 Maximum count of tasks to schedulle.
 
@@ -80,7 +80,7 @@ Returns current position id on success.
 
 Returns -1 on error.
 
-`bool taskDel(uint_8t id)`
+`bool taskDel(uint_8t i)`
 
 Internal use only. Remove task at position id from schedule.
 
@@ -97,9 +97,11 @@ Returns false if task not found.
 Execute all tasks assigned to schedule. Shiuld be run in loop.
 
 ###3. Changes history
-* 2016.2
+* 2017.1
 
  * Add semaphore support
+
+ * Interrupt-safe code
 
 * 2016.1.2
 
