@@ -20,5 +20,6 @@ taskExec			KEYWORD2
 # Constants (LITERAL1)
 #######################################
 
-MAX_TASKS			LITERAL1
+RUN_TASKS			LITERAL1
 RUN_NEVER			LITERAL1
+RUN_DELETE			LITERAL1

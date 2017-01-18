@@ -44,7 +44,7 @@ int16_t taskAdd(task thread) {
 }
 
 bool taskDel(uint8_t i) {
- if (id < taskCount) {
+ if (i < taskCount) {
   taskTasks[i].delay = RUN_DELETE;
   return true;
  }
