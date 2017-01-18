@@ -65,7 +65,7 @@ bool taskDel(task thread) {
 void taskExec() {
   for(uint8_t i = 0; i < taskCount; i++) {
     if (millis() - taskTasks[i].lastRun > taskTasks[i].delay || \
-    	(taskTasks[i].signal != NULL && &taskTasks[i].signal)) {
+    	(taskTasks[i].signal != NULL && *taskTasks[i].signal)) {
       taskTasks[i].lastRun = millis();
       taskTasks[i].delay = taskTasks[i].thread();
       if (taskTasks[i].delay == 0) {
@@ -74,7 +74,7 @@ void taskExec() {
         }
       }
       if (taskTasks[i].signal != NULL) {
-      	&taskTasks[i].signal = false;
+      	*taskTasks[i].signal = false;
       }
     }
   }
