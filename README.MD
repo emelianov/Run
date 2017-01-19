@@ -1,12 +1,15 @@
-#Run 2016.1.2
+#Run 2017.1
 
 Arduino simple cooperative multitask library
 
-*&copy;2016, Alexander Emelianov (a.m.emelianov@gmail.com)*
+*&copy;2017, Alexander Emelianov (a.m.emelianov@gmail.com)*
 
 ###1. Usage
+
+Simple task:
+
 ```c
-#define MAX_TASKS 8
+#define RUN_TASKS 8
 #include <Run.h>
 uint32_t taskToRun() {
   //DO SOMETHING
@@ -14,6 +17,26 @@ uint32_t taskToRun() {
 }
 void setup() {
   addTask(taskToRun);
+//or
+  addTaskWithDelay(taskToRun, firstRunIn_value_miliseconds);
+}
+void loop() {
+  taskExec();
+}
+```
+
+Semaphore task:
+
+```c
+#define RUN_TASKS 8
+#include <Run.h>
+bool semaphore = false;
+uint32_t taskToWait() {
+  //DO SOMETHING
+ return RUN_NEVER;	//Delay To NextRun or 0 To Remove Task also supported
+}
+void setup() {
+  addTaskWithSemaphore(taskToWait, &semaphore);	//first runs as semaphore become true
 }
 void loop() {
   taskExec();
@@ -21,7 +44,7 @@ void loop() {
 ```
 
 ###2. Reference
-`#define MAX_TASKS 16`
+`#define RUN_TASKS 16`
 
 Maximum count of tasks to schedulle.
 
@@ -33,9 +56,9 @@ Returns time to next run in milliseconds.
 
 Returns 0 (zero) remove task from schedule.
 
-`int16_t taskAddWithDelay(task thread, uint32_t delay)`
+`int16_t taskAddWithDelay(task thread, uint32_t delay, bool *signal = NULL)`
 
-Add task with callback function thread and first run in delay milliseconds.
+Add task with callback function thread and first run in delay milliseconds or when signal become true.
 
 Returns current position id on success.
 
@@ -49,7 +72,15 @@ Returns current position id on success.
 
 Returns -1 on error.
 
-`bool taskDel(uint_8t id)`
+`int16_t taskAddWithSemaphore(task thread, bool *signal)`
+
+Add task with callback function thread to run when signal become true.
+
+Returns current position id on success.
+
+Returns -1 on error.
+
+`bool taskDel(uint_8t i)`
 
 Internal use only. Remove task at position id from schedule.
 
@@ -66,6 +97,16 @@ Returns false if task not found.
 Execute all tasks assigned to schedule. Shiuld be run in loop.
 
 ###3. Changes history
+* 2017.1
+
+ * Semaphore support added
+
+ * Interrupt-safe code
+
+ * Examples added
+
+ * MAX_TASKS renamed to RUN_TASKS
+
 * 2016.1.2
 
  * Add check to not exceed MAX_TASKS on addin task.
