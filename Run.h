@@ -66,10 +66,10 @@ void taskExec() {
   for(i = 0; i < taskCount; i++) {
     if (taskTasks[i].delay != 0) {
       if (taskTasks[i].signal != NULL && *taskTasks[i].signal) {
-        for (j = i + 1; j < taskCount; j++) {
+        for (j = 0; j < taskCount; j++) {
           if (taskTasks[j].signal == taskTasks[i].signal) {
-            taskTasks[i].lastRun = millis();
-            taskTasks[i].delay = taskTasks[i].thread();
+            taskTasks[j].lastRun = millis();
+            taskTasks[j].delay = taskTasks[j].thread();
           }
         }
         *taskTasks[i].signal = false;
