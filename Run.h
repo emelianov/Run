@@ -27,7 +27,7 @@ int16_t taskAddWithDelay(task thread, uint32_t delay, bool *signal = NULL) {
  if (taskCount < RUN_TASKS) {
    taskTasks[taskCount].thread   = thread;
    taskTasks[taskCount].lastRun  = millis();
-   taskTasks[taskCount].delay    = delay;
+   taskTasks[taskCount].delay    = (delay == 0)?1:delay;
    taskTasks[taskCount].signal   = signal;
    taskCount++;
    return taskCount - 1;
