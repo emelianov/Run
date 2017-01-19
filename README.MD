@@ -99,9 +99,13 @@ Execute all tasks assigned to schedule. Shiuld be run in loop.
 ###3. Changes history
 * 2017.1
 
- * Add semaphore support
+ * Semaphore support added
 
  * Interrupt-safe code
+
+ * Examples added
+
+ * MAX_TASKS renamed to RUN_TASKS
 
 * 2016.1.2
 

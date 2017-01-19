@@ -1,31 +1,37 @@
 /////////////////////////////////////////////////////////
-// Run 2016.2
+// Run 2017.1
 // Arduino simple cooperative multitask library
 // (c)2017, Alexander Emelianov (a.m.emelianov@gmail.com)
 //
 // Simple blink example
 //
 
-#define LED1_GPIO   4          // GPIO pin to which LED is connected
-#define LED1_ON_OFF 1000       // Blinking period
+// GPIO PIN to which LED is connected
+#define LED1_PIN    2
+// Blinking period
+#define LED1_ON_OFF 1000
 
-#define MAX_TASKS 4            // Decrease maximum task count from default value
 #include <Run.h>
 
-uint32_t blink() {             // Task function that changes LED state on/off
- if (digitalRead(LED1_GPIO) == HIGH) {
-   digitalWrite(LED1_GPIO, LOW);
+// Task function that changes LED state on/off
+uint32_t blink() {
+ if (digitalRead(LED1_PIN) == HIGH) {
+   digitalWrite(LED1_PIN, LOW);
  } else {
-   digitalWrite(LED1_GPIO, HIGH);
+   digitalWrite(LED1_PIN, HIGH);
  }
- return LED1_ON_OFF;           // Return time to next blink() function execution back to scheduller
+// Return time to next blink() function execution back to scheduller
+ return LED1_ON_OFF;
 }
 
 void setup() {
-  pinMode(LED1_GPIO, OUTPUT);  // Set GPIO mode for output
-  addTask(blink);              // Append task to run immediatly
+// Set GPIO mode for output
+  pinMode(LED1_PIN, OUTPUT);
+// Append task to run immediatly
+  addTask(blink);
 }
 
 void loop() {
-  taskExec();                  // Sheduller function
+// Sheduller function
+  taskExec();
 }
