@@ -35,7 +35,7 @@ int16_t taskAddWithDelay(task thread, uint32_t delay, uint16_t* signal = NULL) {
  return -1;
 }
 
-int16_t taskAddWithSemaphore(task thread, uint16_t * signal) {
+int16_t taskAddWithSemaphore(task thread, uint16_t* signal) {
  return taskAddWithDelay(thread, RUN_NEVER, signal);
 }
 
@@ -54,12 +54,8 @@ bool taskDel(uint8_t i) {
 bool taskDel(task thread) {
   for (uint8_t i = 0; i < taskCount; i++) {
     if (taskTasks[i].thread == thread) {
-<<<<<<< HEAD
-      return taskDel(i);
-=======
       taskTasks[i].delay = RUN_DELETE;
       return true;
->>>>>>> 2016.2
     }
   }
   return false;
@@ -87,10 +83,10 @@ void taskExec() {
     }
   }
   for(i = 0; i < taskCount; i++) {
-   if (taskTasks[i].delay == RUN_DELETE) { 
+   if (taskTasks[i].delay == RUN_DELETE) {
      memcpy(&taskTasks[i], &taskTasks[i + 1], (taskCount - i - 1) * sizeof(taskThread));
      taskCount--;
-     i--; 
+     i--;
    }
   }
 }

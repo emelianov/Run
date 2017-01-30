@@ -4,16 +4,24 @@
 // (c)2017, Alexander Emelianov (a.m.emelianov@gmail.com)
 //
 // Semaphore blink example
+// Demonstrates different type of tasks:
+// 1. Generic periodical task that blinking LED. Task starts only after initialization task
+//    set semaphore.
+// 2. Two tasks that swaps eachother to blinking LED with different ON and OFF timings.
+//    Task starts only after initialization task set semaphore.
+// 3. Initialization task that runs only once and set semaphore to start blinking tasks
 //
 
-#define LED1_PIN    4
+
+// LED 1 control PIN. Default is ESP-12 building LED PIN
+#define LED1_PIN    2
 #define LED1_ON_OFF 500
 
-#define LED2_PIN    0
+// LED 1 control PIN. Default is NodeMCU LED PIN
+#define LED2_PIN    16
 #define LED2_ON     2000
 #define LED2_OFF    1000
 
-#define RUN_TASKS   4
 #include <Run.h>
 
 // Semaphore to control main tasks do not run until initialization completes
@@ -27,6 +35,7 @@ uint32_t led1Blink() {
    digitalWrite(LED1_PIN, HIGH);
  }
 // Return time to next run of current task (mSec)
+// So as result task will be executed every LED1_ON_OFF mSeconds
  return LED1_ON_OFF;
 }
 
@@ -42,7 +51,9 @@ uint32_t led2On() {
 // LED 2 turn OFF task
 uint32_t led2Off() {
  digitalWrite(LED2_PIN, HIGH);
+// Add task to LED 2 off in LED2_ON mSec
  taskAddWithDelay(led2On, LED2_OFF);
+// Return RUN_DELETE caused task to be removed from sheduller queue
  return RUN_DELETE;
 }
 
