@@ -1,5 +1,5 @@
 /////////////////////////////////////////////////////////
-// Run 2017.1
+// Run 2017.2
 // Arduino simple cooperative multitask library
 // (c)2017, Alexander Emelianov (a.m.emelianov@gmail.com)
 //
@@ -17,13 +17,13 @@ struct taskThread {
  task thread;
  uint32_t lastRun;
  uint32_t delay;
- bool *signal;
+ uint16_t* signal;
 };
 
 uint8_t taskCount = 0;
 taskThread taskTasks[RUN_TASKS];
 
-int16_t taskAddWithDelay(task thread, uint32_t delay, bool *signal = NULL) {
+int16_t taskAddWithDelay(task thread, uint32_t delay, uint16_t* signal = NULL) {
  if (taskCount < RUN_TASKS) {
    taskTasks[taskCount].thread   = thread;
    taskTasks[taskCount].lastRun  = millis();
@@ -35,7 +35,7 @@ int16_t taskAddWithDelay(task thread, uint32_t delay, bool *signal = NULL) {
  return -1;
 }
 
-int16_t taskAddWithSemaphore(task thread, bool * signal) {
+int16_t taskAddWithSemaphore(task thread, uint16_t * signal) {
  return taskAddWithDelay(thread, RUN_NEVER, signal);
 }
 
@@ -65,14 +65,16 @@ void taskExec() {
   uint8_t i, j;
   for(i = 0; i < taskCount; i++) {
     if (taskTasks[i].delay != 0) {
-      if (taskTasks[i].signal != NULL && *taskTasks[i].signal) {
+      if (taskTasks[i].signal != NULL && *taskTasks[i].signal > 0) {
         for (j = 0; j < taskCount; j++) {
           if (taskTasks[j].signal == taskTasks[i].signal) {
             taskTasks[j].lastRun = millis();
             taskTasks[j].delay = taskTasks[j].thread();
           }
         }
-        *taskTasks[i].signal = false;
+        if (*taskTasks[i].signal > 0) {
+        	*taskTasks[i].signal = *taskTasks[i].signal - 1;
+        }
       }
       if (millis() - taskTasks[i].lastRun > taskTasks[i].delay) {
         taskTasks[i].lastRun = millis();

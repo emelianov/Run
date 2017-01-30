@@ -1,4 +1,4 @@
-#Run 2017.1
+#Run 2017.2
 
 Arduino simple cooperative multitask library
 
@@ -30,13 +30,13 @@ Semaphore task:
 ```c
 #define RUN_TASKS 8
 #include <Run.h>
-bool semaphore = false;
+uint16_t semaphore = 0;
 uint32_t taskToWait() {
   //DO SOMETHING
  return RUN_NEVER;	//Delay To NextRun or 0 To Remove Task also supported
 }
 void setup() {
-  addTaskWithSemaphore(taskToWait, &semaphore);	//first runs as semaphore become true
+  addTaskWithSemaphore(taskToWait, &semaphore);	//first runs as semaphore become non-zerro
 }
 void loop() {
   taskExec();
@@ -56,7 +56,7 @@ Returns time to next run in milliseconds.
 
 Returns 0 (zero) remove task from schedule.
 
-`int16_t taskAddWithDelay(task thread, uint32_t delay, bool *signal = NULL)`
+`int16_t taskAddWithDelay(task thread, uint32_t delay, uint16_t* signal = NULL)`
 
 Add task with callback function thread and first run in delay milliseconds or when signal become true.
 
@@ -72,7 +72,7 @@ Returns current position id on success.
 
 Returns -1 on error.
 
-`int16_t taskAddWithSemaphore(task thread, bool *signal)`
+`int16_t taskAddWithSemaphore(task thread, uint16_t* signal)`
 
 Add task with callback function thread to run when signal become true.
 
@@ -97,6 +97,10 @@ Returns false if task not found.
 Execute all tasks assigned to schedule. Shiuld be run in loop.
 
 ###3. Changes history
+* 2017.2
+
+ * Change semaphore API
+ 
 * 2017.1
 
  * Add semaphore support

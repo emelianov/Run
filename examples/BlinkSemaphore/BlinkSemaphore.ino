@@ -17,7 +17,7 @@
 #include <Run.h>
 
 // Semaphore to control main tasks do not run until initialization completes
-bool initialized = false;
+uint16_t initialized = 0;
 
 //LED 1 blinking task
 uint32_t led1Blink() {
@@ -52,7 +52,7 @@ uint32_t ledInit() {
  pinMode(LED2_PIN, OUTPUT);
 // Set semaphore indicates initialization complete
 // Semaphore will be reset to false by scheduller after all waiting tasks completes
- initialized = true;
+ initialized++;
  return RUN_DELETE;
 }
 
@@ -66,6 +66,6 @@ void setup() {
 }
 
 void loop() {
-// Execute scheduller forever
+// Execute scheduler forever
   taskExec();
 }
