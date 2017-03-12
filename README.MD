@@ -1,4 +1,4 @@
-#Run 2017.2
+#Run 2017.3
 
 Arduino simple cooperative multitask library
 
@@ -92,11 +92,21 @@ Remove task from schedule by callback function address.
 
 Returns false if task not found.
 
+`bool taskExists(task thread)`
+
+Return true if task with specific callback function address exists in schedule.
+
+Returns false if task not found.
+
 `void taskExec()`
 
 Execute all tasks assigned to schedule. Shiuld be run in loop.
 
 ###3. Changes history
+* 2017.3
+
+ * taskExists() added
+
 * 2017.2
 
  * Change semaphore API
@@ -115,7 +125,7 @@ Execute all tasks assigned to schedule. Shiuld be run in loop.
 
  * Add check to not exceed MAX_TASKS on addin task.
 
- * taskAdd and taskAddWithDelay now returns -1 on error.
+ * taskAdd() and taskAddWithDelay() now returns -1 on error.
 
 * 2016.1.1
 

@@ -61,6 +61,15 @@ bool taskDel(task thread) {
   return false;
 }
 
+bool taskExists(task thread) {
+  for (uint8_t i = 0; i < taskCount; i++) {
+    if (taskTasks[i].thread == thread && taskTasks[i].delay != RUN_DELETE) {
+      return true;
+    }
+  }
+  return false;
+}
+
 void taskExec() {
   uint8_t i, j;
   for(i = 0; i < taskCount; i++) {
