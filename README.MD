@@ -1,4 +1,4 @@
-# Run 2017.3
+# Run 2017.4
 
 Arduino simple cooperative multitask library
 
@@ -54,7 +54,9 @@ Task callback functuin.
 
 Returns time to next run in milliseconds.
 
-Returns 0 (zero) remove task from schedule.
+Returns RUN_DELETE remove task from schedule.
+
+Returns RUN_NEVER to not perform timed run.
 
 `int16_t taskAddWithDelay(task thread, uint32_t delay, uint16_t* signal = NULL)`
 
@@ -97,6 +99,14 @@ Returns false if task not found.
 Return true if task with specific callback function address exists in schedule.
 
 Returns false if task not found.
+
+`uint32_t taskRemaider(task thread)`
+
+Return time to next run of task. If timeout expired 
+
+Returns RUN_DELETE if task not exists.
+
+Returns RUN_NEVER for task that will never run by schedule run. But can run by semaphore.
 
 `void taskExec()`
 

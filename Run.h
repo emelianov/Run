@@ -1,15 +1,16 @@
 /////////////////////////////////////////////////////////
-// Run 2017.2
+// Run 2017.4
 // Arduino simple cooperative multitask library
 // (c)2017, Alexander Emelianov (a.m.emelianov@gmail.com)
 //
 
 #pragma once
 
-#define RUN_DELETE 0
-#define RUN_NEVER 0xFFFFFFFF
+#define RUN_DELETE	0
+#define RUN_NEVER	0xFFFFFFFF
+#define RUN_NOW		1
 #ifndef RUN_TASKS
- #define RUN_TASKS      16
+ #define RUN_TASKS  16
 #endif
 
 typedef uint32_t (*task)();
@@ -40,7 +41,7 @@ int16_t taskAddWithSemaphore(task thread, uint16_t* signal) {
 }
 
 int16_t taskAdd(task thread) {
- return taskAddWithDelay(thread, 1);
+ return taskAddWithDelay(thread, RUN_NOW);
 }
 
 bool taskDel(uint8_t i) {
@@ -69,6 +70,20 @@ bool taskExists(task thread) {
   }
   return false;
 }
+
+uint32_t taskRemainder(task thread) {
+  for (uint8_t i = 0; i < taskCount; i++) {
+    if (taskTasks[i].thread == thread) {
+    	if (taskTasks[i].delay == RUN_DELETE) return RUN_DELETE;
+    	if (taskTasks[i].delay == RUN_NEVER) return RUN_NEVER;
+    	uint32_t t = millis() - taskTasks[i].lastRun;
+    	if (t > taskTasks[i].delay) return 1;
+    	return taskTasks[i].delay - t;
+    }
+  }
+  return RUN_DELETE;
+}
+
 
 void taskExec() {
   uint8_t i, j;
