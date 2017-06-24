@@ -102,7 +102,9 @@ Returns false if task not found.
 
 `uint32_t taskRemaider(task thread)`
 
-Return time to next run of task. If timeout expired 
+Return time to next run of task.
+
+Returns RUN_NOW  if timeout is expired.
 
 Returns RUN_DELETE if task not exists.
 
@@ -113,6 +115,10 @@ Returns RUN_NEVER for task that will never run by schedule run. But can run by s
 Execute all tasks assigned to schedule. Shiuld be run in loop.
 
 ### 3. Changes history
+* 2017.4
+
+  * taskReminder() added
+
 * 2017.3
 
   * taskExists() added
