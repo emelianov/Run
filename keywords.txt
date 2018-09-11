@@ -6,7 +6,7 @@
 # Datatypes (KEYWORD1)
 #######################################
 
-Run					KEYWORD1
+Run	KEYWORD1
 
 #######################################
 # Methods and Functions (KEYWORD2)
@@ -14,17 +14,17 @@ Run					KEYWORD1
 
 taskAddWithSemaphore	KEYWORD2
 taskAddWithDelay	KEYWORD2
-taskAdd				KEYWORD2
-taskDel				KEYWORD2
-taskExec			KEYWORD2
-taskExists			KEYWORD2
-taskRemainder		KEYWORD2
+taskAdd	KEYWORD2
+taskDel	KEYWORD2
+taskExec	KEYWORD2
+taskExists	KEYWORD2
+taskRemainder	KEYWORD2
 
 #######################################
 # Constants (LITERAL1)
 #######################################
 
-RUN_TASKS			LITERAL1
-RUN_NEVER			LITERAL1
-RUN_DELETE			LITERAL1
-RUN_NOW				LITERAL1
+RUN_TASKS	LITERAL1
+RUN_NEVER	LITERAL1
+RUN_DELETE	LITERAL1
+RUN_NOW	LITERAL1
