@@ -46,13 +46,13 @@ void loop() {
 ### 2. Reference
 ```c
 #define RUN_TASKS 16
-`
+```
 
 Maximum count of tasks to schedulle.
 
 ```c
 typedef uint32_t (*task)();
-`
+```
 
 Task callback functuin.
 
@@ -64,7 +64,7 @@ Returns RUN_NEVER to not perform timed run.
 
 ```c
 uint16_t taskAddWithDelay(task thread, uint32_t delay, uint16_t* signal = NULL);
-`
+```
 
 Add task with callback function thread and first run in delay milliseconds or when signal become true.
 
@@ -74,7 +74,7 @@ Returns 0 on error.
 
 ```c
 uint16_t taskAdd(task thread);
-`
+```
 
 Add task with callback function thread to run ASAP.
 
@@ -84,7 +84,7 @@ Returns 0 on error.
 
 ```c
 uint16_t taskAddWithSemaphore(task thread, uint16_t* signal);
-`
+```
 
 Add task with callback function thread to run when signal become true.
 
@@ -95,7 +95,7 @@ Returns 0 on error.
 ```c
 bool taskDel(task thread);
 bool taskDel(uint_16t id);
-`
+```
 
 Remove task from schedule by callback function address or task id.
 
@@ -104,7 +104,7 @@ Returns false if task not found.
 ```c
 bool taskExists(task thread);
 bool taskExists(uint16_t);
-`
+```
 
 Return true if task with specific callback function address or task id exists in schedule.
 
@@ -113,7 +113,7 @@ Returns false if task not found.
 ```c
 uint32_t taskRemaider(task thread);
 uint32_t taskRemaider(uint16_t id);
-`
+```
 
 Return time to next run of task.
 
@@ -125,7 +125,7 @@ Returns RUN_NEVER for task that will never run by schedule run. But can run by s
 
 ```c
 void taskExec();
-`
+```
 
 Execute all tasks assigned to schedule. Shiuld be run in loop.
 
