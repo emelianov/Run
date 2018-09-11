@@ -119,22 +119,22 @@ Execute all tasks assigned to schedule. Shiuld be run in loop.
 
 ### 3. Changes history
 * 2018.1
- * task id implemented
+  * task id implemented
 * 2017.4
- * taskReminder() added
+  * taskReminder() added
 * 2017.3
- * taskExists() added
+  * taskExists() added
 * 2017.2
- * Change semaphore API
+  * Change semaphore API
 * 2017.1
- * Semaphore support added
- * Interrupt-safe code
- * Examples added
- * MAX_TASKS renamed to RUN_TASKS
+  * Semaphore support added
+  * Interrupt-safe code
+  * Examples added
+  * MAX_TASKS renamed to RUN_TASKS
 * 2016.1.2
- * Add check to not exceed MAX_TASKS on addin task.
- * taskAdd() and taskAddWithDelay() now returns -1 on error.
+  * Add check to not exceed MAX_TASKS on addin task.
+  * taskAdd() and taskAddWithDelay() now returns -1 on error.
 * 2016.1.1
- * Added function to remove task from schedule by function address (taskDel(task thread)).
+  * Added function to remove task from schedule by function address (taskDel(task thread)).
 * 2016.1
- * Initial release.
+  * Initial release.
