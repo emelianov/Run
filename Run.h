@@ -118,6 +118,7 @@ uint16_t taskId() {
 
 void taskExec() {
   uint8_t i, j;
+  uint32_t delay;
   for(i = 0; i < taskCount; i++) {
     if (taskTasks[i].delay != 0) {
       if (taskTasks[i].signal != NULL && *taskTasks[i].signal > 0) {
@@ -126,7 +127,8 @@ void taskExec() {
           if (taskTasks[j].signal == sig) {
             taskTasks[j].lastRun = millis();
             taskRunningId = taskTasks[j].id;
-            taskTasks[j].delay = taskTasks[j].thread();
+            delay = taskTasks[j].thread();
+            if (taskTasks[j].delay != RUN_DELETE) taskTasks[j].delay = delay;
           }
         }
         if (*sig > 0) *sig = *sig - 1;
@@ -134,7 +136,8 @@ void taskExec() {
       if (taskTasks[i].delay == RUN_NOW || millis() - taskTasks[i].lastRun > taskTasks[i].delay) {
         taskTasks[i].lastRun = millis();
         taskRunningId = taskTasks[i].id;
-        taskTasks[i].delay = taskTasks[i].thread();
+        delay = taskTasks[i].thread();
+	if (taskTasks[i].delay != RUN_DELETE) taskTasks[i].delay = delay;
       }
     }
   }
