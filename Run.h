@@ -1,5 +1,5 @@
 /////////////////////////////////////////////////////////
-// Run 2018.1
+// Run 2018.3
 // Arduino simple cooperative multitask library
 // (c)2017-2018, Alexander Emelianov (a.m.emelianov@gmail.com)
 //
@@ -120,7 +120,7 @@ void taskExec() {
   uint8_t i, j;
   uint32_t delay;
   for(i = 0; i < taskCount; i++) {
-    if (taskTasks[i].delay != 0) {
+    if (taskTasks[i].delay != RUN_DELETE) {
       if (taskTasks[i].signal != NULL && *taskTasks[i].signal > 0) {
 	uint16_t* sig = taskTasks[i].signal;
         for (j = 0; j < taskCount; j++) {
@@ -131,9 +131,13 @@ void taskExec() {
             if (taskTasks[j].delay != RUN_DELETE) taskTasks[j].delay = delay;
           }
         }
-        if (*sig > 0) *sig = *sig - 1;
+         if (*sig > 0) {
+        	noInterrupts();
+		*sig = *sig - 1;
+		interrupts();
+	}
       }
-      if (taskTasks[i].delay == RUN_NOW || millis() - taskTasks[i].lastRun > taskTasks[i].delay) {
+      if (taskTasks[i].delay != RUN_DELETE && taskTasks[i].delay != RUN_NEVER && (taskTasks[i].delay == RUN_NOW || millis() - taskTasks[i].lastRun > taskTasks[i].delay)) {
         taskTasks[i].lastRun = millis();
         taskRunningId = taskTasks[i].id;
         delay = taskTasks[i].thread();

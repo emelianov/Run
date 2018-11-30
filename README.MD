@@ -1,4 +1,4 @@
-# Run 2018.2
+# Run 2018.3
 
 Arduino simple cooperative multitask library
 
@@ -130,6 +130,8 @@ void taskExec();
 Execute all tasks assigned to schedule. Shiuld be run in loop.
 
 ### 3. Changes history
+* 2018.3
+  * Interrupt-safe semaphore processing fix.
 * 2018.2
   * taskDel() was unable to delete current task. Fixed.
 * 2018.1
